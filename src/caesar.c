@@ -23,6 +23,10 @@ int encryptCaesar(const char *plaintext, char *ciphertext, int key) {
 	// TODO: implement
     // test test test
     int i = 0;
+    if (plaintext[i] == '\0') {
+        strgCopy("undefined__EOM__", ciphertext);
+        return 0;
+    }
     int increments = 0;
     while(plaintext[i] != '\0'){
         if(plaintext[i] >= 65 && plaintext[i] <= 90){ // Upper case, or just do 'A'
@@ -71,41 +75,60 @@ int decryptCaesar(const char *ciphertext, char *plaintext, int key) {
     if(ciphertext == NULL || plaintext == NULL)
         return -2;
 	// TODO: implement
+    int buffer;
+    if(plaintext[0] == '\0')
+        return 0;
+    
+    buffer = strgLen(plaintext);
+    if(buffer == 0)
+        buffer = 64;
+
     int i = 0;
+    if((strgDiff("undefined__EOM__", ciphertext) == -1) || ciphertext[i] == '\0'){
+        strgCopy("undefined", plaintext);
+        return 0;
+    }
     int increments = 0;
     while(ciphertext[i] != '\0'){
         if(ciphertext[i] == '_' && ciphertext[i+1] == '_' &&
         ciphertext[i+2] == 'E' && ciphertext[i+3] == 'O' && ciphertext[i+4] == 'M' &&
         ciphertext[i+5] == '_' && ciphertext[i+6] == '_')
             goto next;
-        else 
-            if(ciphertext[i+1] == '\0')
-                return -1;
-            else
-                i++;
+        else if(ciphertext[i+1] == '\0')
+            return -1;
+        i++;
     }
+
     next:
     for(int k = 0; k < i; k++){
-        if(ciphertext[i] >= 65 && ciphertext[i] <= 90){ // Upper case, or just do 'A'
-            int shiftKey = (key + i) % 26;
-            int alphabet = (ciphertext[i] - 65 + 26 - shiftKey) % 26;
-            plaintext[i] = alphabet + 65;
+        if(ciphertext[k] >= 65 && ciphertext[k] <= 90){ // Upper case, or just do 'A'
+            int shiftKey = (key + k) % 26;
+            int alphabet = (ciphertext[k] - 65 + 26 - shiftKey) % 26;
+            plaintext[k] = alphabet + 65;
             increments++;
         }
-        else if(ciphertext[i] >= 97 && ciphertext[i] <= 122){ // lower case, or just do '
-            int shiftKey = (key + i) % 26;
-            int alphabet = (ciphertext[i] - 97 + 26 - shiftKey) % 26;
-            plaintext[i] = alphabet + 97;
+        else if(ciphertext[k] >= 97 && ciphertext[k] <= 122){ // lower case, or just do '
+            int shiftKey = (key +k) % 26;
+            int alphabet = (ciphertext[k] - 97 + 26 - shiftKey) % 26;
+            plaintext[k] = alphabet + 97;
             increments++;
         }
-        else if(ciphertext[i] >= 48 && ciphertext[i] <= 57){
-            int shiftKey = ((key + (2 * i)) % 10);
-            int numbers = (ciphertext[i] - 48 + 10 - shiftKey) % 10;
-            plaintext[i] = numbers + 48;
+        else if(ciphertext[k] >= 48 && ciphertext[k] <= 57){
+            int shiftKey = ((key + (2 * k)) % 10);
+            int numbers = (ciphertext[k] - 48 + 10 - shiftKey) % 10;
+            plaintext[k] = numbers + 48;
             increments++;
+        }
+        else{
+            if(k < buffer) 
+                plaintext[k] = ciphertext[k];
         }
     }
-    plaintext[i] = '\0';
+     // buffer size end for plaintext, out of range i
+    if (i < buffer)
+        plaintext[i] = '\0';
+    else
+        plaintext[buffer] = '\0';
 
     (void)ciphertext;
     (void)plaintext;
@@ -113,7 +136,7 @@ int decryptCaesar(const char *ciphertext, char *plaintext, int key) {
     return increments;
 }
 
-
+;
 /**
  * Create all test cases inside of the main function below.
  * Run the test cases by first compiling with "make" and then 
@@ -123,10 +146,12 @@ int decryptCaesar(const char *ciphertext, char *plaintext, int key) {
  * test cases for the TAs. 
  * Comment out if using criterion to test.
  */
+
+ /*
 int main(int argc, char* argv[]){
 	(void)argc;
 	(void)argv;
-	/** CREATE TEST CASES HERE **/
+
     // // // // // ENCRYPT
     char ciphertext0[27] = {0};
     printf("%d\n", encryptCaesar("System Fundamentals", ciphertext0, 1));
@@ -158,6 +183,7 @@ int main(int argc, char* argv[]){
     printf("%s\n", plaintext0); 
 
 	
-	/** ---------------------- **/
+
 	return 0;
 }
+*/

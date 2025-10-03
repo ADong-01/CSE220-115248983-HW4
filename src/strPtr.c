@@ -132,7 +132,7 @@ void strgReverseLetters(char *s) {
 }
 
 
-
+;
 /**
  * Create all test cases inside of the main function below.
  * Run the test cases by first compiling with "make" and then 
@@ -142,10 +142,12 @@ void strgReverseLetters(char *s) {
  * test cases for the TAs. 
  * Comment out if using criterion to test.
  */
+
+ /*
 int main(int argc, char* argv[]){
 	(void)argc;
 	(void)argv;
-	/** CREATE TEST CASES HERE **/
+
 	printf("%d\n", strgLen("Stony Brook"));
     printf("%d\n", strgLen("CSE 220"));
     printf("%d\n", strgLen("C"));
@@ -233,6 +235,7 @@ int main(int argc, char* argv[]){
     strgReverseLetters(st5);
     printf("%s\n", st5);
 
-	/** ---------------------- **/
+
 	return 0;
 }
+*/

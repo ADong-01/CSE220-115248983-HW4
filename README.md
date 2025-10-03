@@ -17,6 +17,13 @@ To then run it, run:
 ./bin/<FILENAME>
 ```
 
+In testing, run:
+```bash
+gcc -Iinclude -Wall -Wextra -O2 tests/base_tests.c src/caesar.c src/strPtr.c -lcriterion -o bin/tests
+
+./bin/tests
+```
+As provided by TA instructed commands.
 
 ## Submitting your Code
 
